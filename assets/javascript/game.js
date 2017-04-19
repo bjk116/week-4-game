@@ -48,26 +48,28 @@ var solo = {
 
 var heros=[obi,luke,maul,solo];
 
-
-
-$(document).ready(function(){
-	function findInHeroArray(find){
+function findHero(find) {
+	var name;
 	for(hero in heros) {
-		if (find == heros[hero]){
-			console.log("find: "+find);
-			console.log("hero: "+hero);
+		name=heros[hero].Name.toLowerCase();
+		if(name===find) {
+			console.log(heros[hero].Name+"==="+find);
 			return hero;
-			}
 		}
 	}
-	
+}
+
+$(document).ready(function(){
 	var userChoice;
 	var userPicked=false;
+	var heroIndex;//to keep trakc of what hero is selected
+
 	//set healths, practice populating page with object information
 	//maybe turn this to a function to reset healths as needed
 	for(hero in heros){
 		var tempHero=heros[hero];
-		var heroId='#'+tempHero.Name+'-health';
+		var heroId='#'+tempHero.Name.toLowerCase()+'-health';
+		console.log(heroId);
 		$(heroId).html('Health: '+tempHero.Health);
 	}
 
@@ -75,31 +77,46 @@ $(document).ready(function(){
 	$('.hero').on('click', function(){
 		userPicked=true;//so user can only pick one character
 		userChoice=$(this).attr('value');
+		//Couldn't search array for some reason, fix later
+		heroIndex=findHero(userChoice);
+		console.log('Hero Index: '+heroIndex);
 		console.log(userChoice);
+		console.log(heros[heroIndex]);
 		//find in hero's array
-		var h = findInHeroArray(userChoice);
-		console.log("choice is "+h+" in hero array");
+		//rearrange HTMl so attacker is on top, defenders are on bottom
 		//set div of attackers to choice only
-		/*
 		//clear it
 		$('#attackers').html('');
 		//set it
 		$('#attackers').html("\
 			<div class = \'hero\' value = \'"+userChoice+"\'>\
-				<div class = \'offset-sm-3 col-sm-6 well\'>\
+				<div class =\'col-sm-3\'>\
+				</div>\
+				<div class = \'col-sm-6 well\'>\
 					<img src=\'assets/images/"+userChoice+".jpg\' class = \'heropic thumbnail img-responsive center-block\'>\
 					<h2 class = \'text-center\'>"+userChoice+"</h2>\
-					<h2 id = \'"+userChoice+"-health\' class=\'text-center\'>Health: +"+heros[h]+"</h2>\
+					<h2 id = \'"+userChoice+"-health\' class=\'text-center\'>Health: "+tempHero.Health+"</h2>\
 				</div>\
 			</div>\
 			");
-		*/
+		//populate defender row
+		for(var i=0;i<4;i++) {
+			if(i!=heroIndex){
+				$('#remainingDefenders').append("\
+					<div class = \'hero\' value = \'"+heros[i].Name.toLowerCase()+"\'>\
+						<div class = \'col-sm-4 well\'>\
+							<img src=\'assets/images/"+heros[i].Name.toLowerCase()+".jpg\' class = \'heropic thumbnail img-responsive center-block\'>\
+							<h2 class = \'text-center\'>"+heros[i].Name.toLowerCase()+"</h2>\
+							<h2 id = \'"+heros[i].Name.toLowerCase()+"-health\' class=\'text-center\'>Health: "+heros[i].Health+"</h2>\
+						</div>\
+					</div>\
+					");
+			}
+		}
 	});
 
 
-//rearrange HTMl so attacker is on top, defenders are on bottom
 
-//user selects who they are attacking
 
 //wait for press attack button, then calculate damage and health
 	//print out result
