@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Play Star Wars RPG!</title>
+	<!--CSS Links-->
+	<link rel='stylesheet' type='text/css' href='assets/css/vendor/bootstrap-3.3.7-dist/css/bootstrap.min.css'>
+	<link rel='stylesheet' type='text/css' href='assets/css/style.css'>
+	<link rel='stylesheet' type='text/css' href='assets/css/reset.css'>
+	<!--jQuery/Javascript Links-->
+	<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+	<script src='assets/javascript/game.js'></script>
+</head>
+<body>
+	<div class = 'jumbotron jumbotron-fluid text-center'>
+	   <span class='title-text'><h1>STAR WARS<br><small class='text-center'>The Long Awaited Browser RPG!</small></h1></span>
+	   <br>
+	</div>
+	<div class = 'container container-fluid'>
+		<div class = 'row' id='attackers'>
+			<div class = 'hero' value = 'obi'>
+				<div class = 'col-sm-3 well'>
+					<img src='assets/images/obi.jpg' class = 'heropic thumbnail img-responsive center-block'>
+					<h2 class = 'text-center'>Obi</h2>
+					<h2 id = 'obi-health' class='text-center'></h2>
+				</div>
+			</div>
+			<div class = 'hero' value = 'luke'>
+				<div class = 'col-sm-3 well'>
+					<img src='assets/images/luke.jpg' class = 'heropic thumbnail img-responsive center-block'>
+					<h2 class = 'text-center'>Luke</h2>
+					<h2 id = 'luke-health' class='text-center'></h2>
+				</div>
+			</div>
+			<div class = 'hero' value = 'maul'>
+				<div class = 'col-sm-3 well'>
+					<img src='assets/images/maul.jpg' class = 'heropic thumbnail img-responsive center-block'>
+					<h2 class = 'text-center'>Maul</h2>
+					<h2 id = 'maul-health' class='text-center'></h2>
+				</div>
+			</div>
+			<div class = 'hero' value = 'solo'>
+				<div class = 'col-sm-3 well'>
+					<img src='assets/images/solo.jpg' class = 'heropic thumbnail img-responsive center-block'>
+					<h2 class = 'text-center'>Solo</h2>
+					<h2 id = 'solo-health' class='text-center'></h2>
+				</div>
+			</div>
+		</div> <!--End Attackers Row-->
+		<div class = 'row' id = 'currentDefender'>
+		</div>
+		<div class = 'row'>
+		<!--Insert Attack Button-->
+		</div>
+		<div class = 'row' id = 'damageResult'>
+		</div>
+		<div class = 'row' id = 'remainingDefenders'>
+		</div>
+
+
+</body>
+</html>
