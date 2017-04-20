@@ -63,6 +63,9 @@ $(document).ready(function(){
 	var userChoice;
 	var userPicked=false;
 	var heroIndex;//to keep trakc of what hero is selected
+	var currentDef;
+	var currD=false;//track if we already have a defender
+	var defenderIndex;
 
 	//set healths, practice populating page with object information
 	//maybe turn this to a function to reset healths as needed
@@ -99,11 +102,12 @@ $(document).ready(function(){
 				</div>\
 			</div>\
 			");
+		$('#remainingDefenders').html('');
 		//populate defender row
 		for(var i=0;i<4;i++) {
 			if(i!=heroIndex){
 				$('#remainingDefenders').append("\
-					<div class = \'hero\' value = \'"+heros[i].Name.toLowerCase()+"\'>\
+					<div class = \'defender\' value = \'"+heros[i].Name.toLowerCase()+"\'>\
 						<div class = \'col-sm-4 well\'>\
 							<img src=\'assets/images/"+heros[i].Name.toLowerCase()+".jpg\' class = \'heropic thumbnail img-responsive center-block\'>\
 							<h2 class = \'text-center\'>"+heros[i].Name.toLowerCase()+"</h2>\
@@ -115,9 +119,21 @@ $(document).ready(function(){
 		}
 	});
 
+	//selecting current defender
+	/*$('.defender').on('click', function() {
+		currD=true;
+		currentDef=$(this).attr('value');
+		defenderIndex=findHero(currentDef);
+		console.log(currentDef);
+		console.log('Defender index: '+defenderIndex);
+	});*/
 
-
-
+	$('#remainingDefenders').on('click', function(e) {
+        currentDef=$(e.target);
+        console.log(currentDef);
+  		console.log(currentDef.parent().closest('div'));
+  		console.log(currentDef.parent().closest('div').parent());
+    });
 //wait for press attack button, then calculate damage and health
 	//print out result
 
