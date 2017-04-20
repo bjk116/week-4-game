@@ -90,8 +90,9 @@ $(document).ready(function(){
 		//set div of attackers to choice only
 		//clear it
 		$('#attackers').html('');
+		$('#attackers').append('<h2 class=\'text-center\'>Hero</h2>');
 		//set it
-		$('#attackers').html("\
+		$('#attackers').append("\
 			<div class = \'hero\' value = \'"+userChoice+"\'>\
 				<div class =\'col-sm-3\'>\
 				</div>\
@@ -103,6 +104,8 @@ $(document).ready(function(){
 			</div>\
 			");
 		$('#remainingDefenders').html('');
+		//title row
+		$('#remainingDefenders').append('<h2 class=\'text-center\'>Defenders</h2>');
 		//populate defender row
 		for(var i=0;i<4;i++) {
 			if(i!=heroIndex){
@@ -117,23 +120,32 @@ $(document).ready(function(){
 					");
 			}
 		}
+
+		//selecting current defender
+		$('.defender').on('click', function() {
+			//select current defender
+			currD=true;
+			currentDef=$(this).attr('value');
+			defenderIndex=findHero(currentDef);
+			//set as current defender
+			
+
+			//attack loop
+
+			//win/lose
+				//if win, select new defender
+				//if lose, end game
+		});
 	});
 
-	//selecting current defender
-	/*$('.defender').on('click', function() {
-		currD=true;
-		currentDef=$(this).attr('value');
-		defenderIndex=findHero(currentDef);
-		console.log(currentDef);
-		console.log('Defender index: '+defenderIndex);
-	});*/
 
+/*
 	$('#remainingDefenders').on('click', function(e) {
         currentDef=$(e.target);
         console.log(currentDef);
   		console.log(currentDef.parent().closest('div'));
   		console.log(currentDef.parent().closest('div').parent());
-    });
+    });*/
 //wait for press attack button, then calculate damage and health
 	//print out result
 
