@@ -82,9 +82,6 @@ $(document).ready(function(){
 		userChoice=$(this).attr('value');
 		//Couldn't search array for some reason, fix later
 		heroIndex=findHero(userChoice);
-		console.log('Hero Index: '+heroIndex);
-		console.log(userChoice);
-		console.log(heros[heroIndex]);
 		//find in hero's array
 		//rearrange HTMl so attacker is on top, defenders are on bottom
 		//set div of attackers to choice only
@@ -99,7 +96,7 @@ $(document).ready(function(){
 				<div class = \'col-sm-6 well\'>\
 					<img src=\'assets/images/"+userChoice+".jpg\' class = \'heropic thumbnail img-responsive center-block\'>\
 					<h2 class = \'text-center\'>"+userChoice+"</h2>\
-					<h2 id = \'"+userChoice+"-health\' class=\'text-center\'>Health: "+tempHero.Health+"</h2>\
+					<h2 id = \'"+userChoice+"-health\' class=\'text-center\'>Health: "+heros[heroIndex].Health+"</h2>\
 				</div>\
 			</div>\
 			");
@@ -124,28 +121,88 @@ $(document).ready(function(){
 		//selecting current defender
 		$('.defender').on('click', function() {
 			//select current defender
-			currD=true;
-			currentDef=$(this).attr('value');
-			defenderIndex=findHero(currentDef);
-			//set as current defender
+			if(currD==false){
+				currD=true;
+				currentDef=$(this).attr('value');
+				defenderIndex=findHero(currentDef);
+				//set as current defender
+				$('#currentDefender').append('<h2 class=\'text-center\'>Current Enemy</h2>');
+				$('#currentDefender').append("\
+					<div class = \'currentD\' value = \'"+heros[defenderIndex].Name.toLowerCase()+"\'>\
+					<div class =\'col-sm-3\'>\
+					</div>\
+					<div class = \'col-sm-6 well\'>\
+							<img src=\'assets/images/"+heros[defenderIndex].Name.toLowerCase()+".jpg\' class = \'heropic thumbnail img-responsive center-block\'>\
+							<h2 class = \'text-center\'>"+heros[defenderIndex].Name.toLowerCase()+"</h2>\
+							<h2 id = \'"+heros[defenderIndex].Name.toLowerCase()+"-health\' class=\'text-center\'>Health: "+heros[defenderIndex].Health+"</h2>\
+						</div>\
+					</div>\
+				");
+			//reset defender list
+				$('#remainingDefenders').html('');
+				$('#remainingDefenders').append('<h2 class=\'text-center\'>Defenders</h2>');
+				for(var i=0;i<4;i++) {
+					if(i!=heroIndex && i!=defenderIndex){
+						$('#remainingDefenders').append("\
+							<div class = \'defender\' value = \'"+heros[i].Name.toLowerCase()+"\'>\
+								<div class = \'col-sm-4 well\'>\
+									<img src=\'assets/images/"+heros[i].Name.toLowerCase()+".jpg\' class = \'heropic thumbnail img-responsive center-block\'>\
+									<h2 class = \'text-center\'>"+heros[i].Name.toLowerCase()+"</h2>\
+									<h2 id = \'"+heros[i].Name.toLowerCase()+"-health\' class=\'text-center\'>Health: "+heros[i].Health+"</h2>\
+								</div>\
+							</div>\
+							");
+					}
+				}
+			//create attack button
+				$('#attackBtn').html("<button type=\"button\" class=\"btn btn-danger text-center\" id = \'att\'>Attack</button>");
+			//end picking current defender and resetting defender row
 			
-
 			//attack loop
+				$('#att').on('click', function(){
+					if(defenderIndex==-1){
+						alert('Need to select a new enemy!');
+					} else {
+						//find hero attack, find counter attack
+						var attackPower=heros[heroIndex].Attack;
+						var counter=heros[defenderIndex].Counter;
+						var heroHealth='#'+heros[heroIndex].Name.toLowerCase()+'-health';
+						var defenderHealth='#'+heros[defenderIndex].Name.toLowerCase()+'-health';
 
-			//win/lose
-				//if win, select new defender
-				//if lose, end game
+						//display messages
+						$('#dmgResult').html('');//reset due to last attack
+						$('#dmgResult').append('<h3>'+heros[heroIndex].Name + ' did ' + heros[heroIndex].Attack + ' damage to ' + heros[defenderIndex].Name +'!</h3><br>');
+						$('#dmgResult').append('<h3>'+heros[defenderIndex].Name + ' countered ' + heros[heroIndex].Name + ' for ' + heros[defenderIndex].Counter +' damage!</h3>');
+						//update healths
+						heros[heroIndex].Health=heros[heroIndex].Health-counter;
+						heros[defenderIndex].Health=heros[defenderIndex].Health-attackPower;
+						$(heroHealth).html('Health: ' + heros[heroIndex].Health);
+						$(defenderHealth).html('Health: ' + heros[defenderIndex].Health);
+						//update health/get rid of character
+									//win/lose
+						//if win, select new defender
+						if(heros[defenderIndex].Health<=0){
+							$('#currentDefender').html('');
+							defenderIndex=-1;
+							currD=false;
+							//run defender again? idk what to do
+						} if(heros[heroIndex].Health<=0) {
+							alert('You lose');
+							//restart game
+							location.reload();
+						}
+
+
+						//update new attack power
+					}
+				});
+			}
+
+
+
 		});
 	});
 
-
-/*
-	$('#remainingDefenders').on('click', function(e) {
-        currentDef=$(e.target);
-        console.log(currentDef);
-  		console.log(currentDef.parent().closest('div'));
-  		console.log(currentDef.parent().closest('div').parent());
-    });*/
 //wait for press attack button, then calculate damage and health
 	//print out result
 
